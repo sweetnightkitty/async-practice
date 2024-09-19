@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <img src="#">
+
+
+    <input type="text" id="search" name="search">
+
+    <button class="newPic">Get new picture</button>
+
+
+    <script>
+        const myKey = "dVy8AGfcqjANA9q5hq9bJ8pv8mqqCmV8";
+        let searchTerm = "cats";
+
+        function getGifyLink() {
+            const gify = "https://api.giphy.com/v1/gifs/translate?api_key=" + myKey + "&s=" + searchTerm;
+            return gify;
+        }
+
+    
+
+        const img = document.querySelector("img");
+        const newPic = document.querySelector(".newPic");
+        const form = document.querySelector("form");
+        const searchInput = document.querySelector("input");
+
+        fetch(getGifyLink(), {mode:"cors"}) //fetches the API info w/key
+        .then(function(response) {
+            return response.json(); //Return with .json to get the data
+        })   //Since this is another promise we need another then to access whats in the promise
+        .then(function(response) {
+            img.src = response.data.images.original.url;
+        })
+
+        newPic.addEventListener("click", ()=> {
+            searchTerm = searchInput.value;
+            
+            fetch(getGifyLink(), {mode:"cors"}) //fetches the API info w/key
+            .then(function(response) {
+                return response.json(); //Return with .json to get the data
+            })   //Since this is another promise we need another then to access whats in the promise
+            .then(function(response) {
+                img.src = response.data.images.original.url;
+            })
+        });
+
+
+    </script>
+</body>
+</html>
